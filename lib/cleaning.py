@@ -1,5 +1,4 @@
 import re
-from lib import geo_data
 from lib import utils
 
 

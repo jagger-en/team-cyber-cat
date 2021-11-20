@@ -83,12 +83,10 @@ def generate_co2_spending_by_criteria(df, criteria_column):
         dict_item['TotalCo2Emission'] = "UNSET"
         try:
             dict_item['TotalCo2Emission'] = filtered['co2_emission'].sum()
-        except:
+        except BaseException:
             pass
-        if dict_item['TotalSpendEUR'] == 0:
-            dict_item['TotalSpendEUR'] = 'UNSET'
-        if dict_item['TotalCo2Emission'] == 0:
-            dict_item['TotalCo2Emission'] = 'UNSET'
+        if isinstance(dict_item['TotalCo2Emission'], str):
+            dict_item['TotalCo2Emission'] = "UNSET"
         res.append(dict_item)
 
     return convert_dict_to_df(res)

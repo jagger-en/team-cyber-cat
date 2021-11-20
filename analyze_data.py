@@ -11,7 +11,8 @@ EMISSION_PER_EURO = pd.read_excel(
 
 GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
 
-COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF).fillna('UNSET')
+COMBINED_DATA_GEO_DF = cleaning.combine(
+    GEO_DATA, SPEND_DATA_DF).fillna('UNSET')
 COMBINED_DATA_GEO_DF = cleaning.remove_identifier(
     COMBINED_DATA_GEO_DF, 'ProductName')
 COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(
@@ -23,8 +24,6 @@ DATA_GROUP_BY_COUNTRY = utils.generate_co2_spending_by_criteria(
     COMBINED_DATA_GEO_DF, 'VendorCountry')
 DATA_GROUP_BY_CITY = utils.generate_co2_spending_by_criteria(
     COMBINED_DATA_GEO_DF, 'VendorCity')
-
-COMBINED_DATA_GEO_DF.fillna('UNSET')
 
 
 def _get_nan_df(df):
@@ -83,8 +82,14 @@ utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'geo_data', GEO_DATA)
 
 LIST_OF_COUNTRIES = list(COMBINED_DATA_GEO_DF['VendorCountry'].unique())
 LIST_OF_CITIES = list(COMBINED_DATA_GEO_DF['VendorCity'].unique())
-utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'list_of_countries', LIST_OF_COUNTRIES)
-utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'list_of_cities', LIST_OF_CITIES)
+utils.output_to_file(
+    f'{DATA_FOLDER}/geo_data',
+    'list_of_countries',
+    LIST_OF_COUNTRIES)
+utils.output_to_file(
+    f'{DATA_FOLDER}/geo_data',
+    'list_of_cities',
+    LIST_OF_CITIES)
 
 
 def search(df, filter_criteria):
