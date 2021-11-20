@@ -43,5 +43,5 @@ def search(df,filter_criteria):
 
     df_product=utils.filter_df(df,'ProductName',product)
     df_city=utils.filter_df(df_product,'VendorCity',city)
-    df_price=utils.filter_by_range(df_city,price_range['upper'],price_range['lower'])
+    df_price=utils.filter_by_range(df_city,'unit_price',price_range.get('upper'),price_range.get('lower'))
     return df_price.sort_valus(by=sort)
