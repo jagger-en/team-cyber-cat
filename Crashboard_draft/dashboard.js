@@ -1,24 +1,14 @@
 function create_chart(elem_id, list_of_labels, datasets) {
   const ctx = document.getElementById(elem_id)
   const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: list_of_labels,
-      datasets: datasets
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
+      type: 'bar',
+      data: {
+          datasets: datasets,
+          labels: list_of_labels
       },
-      legend: {
-        display: false
-      }
-    }
-  })
+      options: {}
+  });
+ 
   return myChart
 }
 
@@ -134,23 +124,27 @@ function load_graphs(json, city_data, country_data) {
   city_data = city_data.sort((a,b) => a.TotalSpendEUR - b.TotalSpendEUR)
   city_data_graph_data_set = [
     {
+      type: 'line',
+      label: 'Line Dataset',
       data: city_data.map(d => d.TotalSpendEUR),
       lineTension: 0,
       backgroundColor: 'transparent',
       borderColor: '#007bff',
-      borderWidth: 4,
-      pointBackgroundColor: '#007bff'
+      borderWidth: 1,
+      pointBackgroundColor: '#000'
     },
     {
+      type: 'bar',
+      label: 'Bar Dataset',
       data: city_data.map(d => d.TotalCo2Emission),
       lineTension: 0,
-      backgroundColor: 'transparent',
+      backgroundColor: '#d04e4e',
       borderColor: '#d04e4e',
-      borderWidth: 4,
+      borderWidth: 2,
       pointBackgroundColor: '#d04e4e'
     }
   ]
-  create_chart('myChart', city_data.map(d => d.name), city_data_graph_data_set)
+  create_chart('dataChart1', city_data.map(d => d.name), city_data_graph_data_set)
 }
 
 
