@@ -7,7 +7,7 @@ from lib import geo_data
 from lib import cleaning
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
-SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('None')
+SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('NULL')
 
 
 GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)

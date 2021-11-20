@@ -28,6 +28,14 @@ def clean_geo_data(input_geo_data):
 
 
 def combine(geo_data, input_df):
+    def _calc_unit_price(total_price, quantity):
+        '''
+        NOTE: The column SpendEUR needs to be used as the total_price! Other countries may have different currencies.
+        '''
+        if quantity == 'NULL':
+            quantity = 1
+        return total_price / quantity
+
     input_dict_list = utils.convert_df_to_dict(input_df)
     combined_list = []
     for input_dict in input_dict_list:
@@ -35,6 +43,7 @@ def combine(geo_data, input_df):
         city_item = [item for item in geo_item['cities'] if item['code_name'] == input_dict['VendorCity']][0]
         combined_list.append({
             **input_dict,
+            'unit_price': _calc_unit_price(input_dict['SpendEUR'], input_dict['Quantity']),
             'country_lat': geo_item['coords']['lat'],
             'country_long': geo_item['coords']['long'],
             'city_lat': city_item['coords']['lat'],
