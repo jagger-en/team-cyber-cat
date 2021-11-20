@@ -1,97 +1,63 @@
-/* globals Chart:false, feather:false */
+function create_chart(elem_id, list_of_labels, list_of_data) {
+  const ctx = document.getElementById(elem_id)
+  const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: list_of_labels,
+      datasets: [{
+        data: list_of_data,
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    }
+  })
+  return myChart
+}
 
-(function () {
-  'use strict'
 
+function load_graphs() {
   feather.replace({ 'aria-hidden': 'true' })
+  const LIST_OF_LABELS = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ]
+  
+  const LIST_OF_DATA = [
+    15339,
+    21345,
+    18483,
+    24003,
+    23489,
+    24092,
+    12034 
+  ]
+  create_chart('myChart', LIST_OF_LABELS, LIST_OF_DATA)
+}
 
-  // Graphs
-  var ctx = document.getElementById('myChart')
-  var ctx2 = document.getElementById('myChart2')
-  // eslint-disable-next-line no-unused-vars
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      },
-      legend: {
-        display: false
-      }
-    }
-  })
 
-  var myChart = new Chart(ctx2, {
-    type: 'line',
-    data: {
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      },
-      legend: {
-        display: false
-      }
-    }
-  })
-})()
+
+
+
+
+
+load_graphs()
