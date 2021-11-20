@@ -40,7 +40,8 @@
     ></script>
   </head>
 
-  <body>
+<!-- HEAD-->
+  <header>
     <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
       <div class="container">
         <a href="#" class="navbar-brand"
@@ -57,16 +58,28 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a href="index.html" class="nav-link">Home</a>
+              <a href="intro.php" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-              <a href="about.html" class="nav-link">About</a>
+              <a href="map.php" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.php" class="nav-link">Contact</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+  </header>
 
+<!-- -->
+
+
+
+
+  
+
+  <body>
     <div class="container mt-4">
       <div class="row">
         <div class="col-9">
@@ -204,7 +217,7 @@
         <div class="col-10">
           <div id="map">
             <script>
-              var map = L.map("map").setView([51.505, -0.09], 13);
+              var map = L.map("map").setView([47.5162, 14.5501], 5);
               L.tileLayer(
                 "https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=RqPVefXUdjgIrKWZw5Nh",
                 {
@@ -212,6 +225,41 @@
                     '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
                 }
               ).addTo(map);
+
+            //require('coordinates.json');
+
+              //var coordinates=JSON.parse(data);
+
+              
+             
+
+  
+    const coordinates= JSON.parse('[{"full_name": "Austria","code_name": "AT","lat":47.5162,"lon":14.5501},{"full_name": "Netherlands","code_name": "NL", "lat": 52.1326, "lon": 5.2913},{"full_name": "Ukraine","code_name": "UA","lat": 48.3794,"lon":31.1656},{"full_name": "Finland", "code_name": "FI", "lat": 61.9241, "lon": 25.7482},{"full_name": "Germany","code_name": "DE","lat": 51.1657,"lon": 10.4515},{"full_name": "Italy","code_name": "IT","lat": 41.8719,"lon": 12.5674}]');
+
+    var len= coordinates.length;
+
+
+    for(var i = 0; i<len;i++){
+       var ATmarker = L.marker([coordinates[i].lat, coordinates[i].lon]).addTo(map).bindPopup(coordinates[i].full_name+"("+coordinates[i].code_name+")").openPopup();
+
+    }
+
+             
+              
+
+
+
+
+
+              var popup = L.popup();
+              function onMapClick(e) {
+                popup
+                .setLatLng(e.latlng)
+                .setContent("You clicked the map at " + e.latlng.toString())
+                .openOn(map);
+              }
+              map.on('click', onMapClick);
+
             </script>
           </div>
         </div>
@@ -221,44 +269,49 @@
       <br />
       <br />
     </div>
-
-    <footer class="footer bg-light">
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="container padding">
-          <div class="row">
-            <div class="col-md-4">
-              <br />
-              <h5>CCBBAA</h5>
-              <ul>
-                <li><a href="manufacturers.html">Manufacturers</a></li>
-                <li><a href="retailers.html">Retailers</a></li>
-              </ul>
-            </div>
-
-            <div class="col-md-4">
-              <br />
-              <h5>AABBCC</h5>
-              <ul>
-                <li><a href="customers.html">Customers</a></li>
-                <li><a href="allDiagrams.html">Others</a></li>
-              </ul>
-            </div>
-
-            <div class="col-md-4">
-              <br />
-              <h5>Support</h5>
-              <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-10 text-center mt-4">
-            <h5>&copy; www.crashboard.com</h5>
-          </div>
-        </div>
-      </main>
-    </footer>
   </body>
+
+  
+
+<footer>
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="container padding">
+    <div class="row">
+
+      <div class="col-md-4">
+        <br>
+        <h5>CCBBAA</h5>
+        <ul>
+          <li><a href="manufacturers.html">Manufacturers</a></li>
+          <li><a href="retailers.html">Retailers</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-4">
+        <br>
+        <h5>AABBCC</h5>
+        <ul>
+          <li><a href="customers.html">Customers</a></li>
+          <li><a href="allDiagrams.html">Others</a></li>
+        </ul>
+      </div>
+     
+      <div class="col-md-4">
+        <br>
+        <h5>Support</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>          
+        </ul>
+      </div></div>
+
+      <div class="col-10 text-center mt-4">
+        <h5>&copy; www.crashboard.com</h5>
+      </div>
+
+   
+  </div></main>
+
+</footer>
+
 </html>
