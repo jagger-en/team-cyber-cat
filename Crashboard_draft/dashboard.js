@@ -121,27 +121,25 @@ function load_graphs(json, city_data, country_data) {
 
   create_table(json, 'manufacturer-list-of-results')
 
-  city_data = city_data.sort((a,b) => a.TotalSpendEUR - b.TotalSpendEUR)
+  city_data = city_data.sort((a,b) => a.TotalCo2Emission - b.TotalCo2Emission)
   city_data_graph_data_set = [
     {
-      type: 'line',
-      label: 'Line Dataset',
+      type: 'bar',
+      label: 'TotalSpendEUR',
       data: city_data.map(d => d.TotalSpendEUR),
       lineTension: 0,
-      backgroundColor: 'transparent',
+      backgroundColor: '#007bff',
       borderColor: '#007bff',
-      borderWidth: 1,
-      pointBackgroundColor: '#000'
+      borderWidth: 1
     },
     {
       type: 'bar',
-      label: 'Bar Dataset',
+      label: 'TotalCo2Emission',
       data: city_data.map(d => d.TotalCo2Emission),
       lineTension: 0,
       backgroundColor: '#d04e4e',
       borderColor: '#d04e4e',
-      borderWidth: 2,
-      pointBackgroundColor: '#d04e4e'
+      borderWidth: 1
     }
   ]
   create_chart('dataChart1', city_data.map(d => d.name), city_data_graph_data_set)
