@@ -1,6 +1,7 @@
 import json
 import shutil
 from pathlib import Path
+import pandas as pd
 
 
 def get_working_dir():
@@ -56,3 +57,9 @@ def calc_statistics(df, numeric_column_name):
     mean = numeric_column.mean()
     res = {'max': max, 'min': min, 'mean': mean}
     return res
+
+def convert_df_to_dict(df):
+    return df.to_dict('records')
+
+def convert_dict_to_df(dict_list):
+    return pd.DataFrame.from_dict(dict_list)

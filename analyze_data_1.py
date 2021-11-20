@@ -1,35 +1,53 @@
 import pandas as pd
 import json
+import numpy as np
 from lib import utils
+import re
+from lib import geo_data
+from lib import cleaning
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
-SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx')
+SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('None')
+
+
+GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
+
+COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF)
 
 
 def _get_nan_df(df):
     return df[df['ProductId'].isna()]
 
 
-def analyze_nan_df(input_df):
-    df = _get_nan_df(input_df)
 
-    countries_list = df['VendorCountry'].unique()
-
+def analyze_spend_original_currency(input_df, field):
+    countries_list = input_df[field].unique()
     countries_dictionary_list = []
     for country in countries_list:
-        country_df = utils.filter_df(df, 'VendorCountry', country)
-        country_stats = utils.calc_statistics(
-            country_df, 'SpendOriginalCurrency')
+        country_df = utils.filter_df(input_df, field, country)
+        country_stats = utils.calc_statistics(country_df, 'SpendOriginalCurrency')
 
         country_data = {
-            'name': country,
+            'code_name': country,
             'stats': country_stats
         }
         countries_dictionary_list.append(country_data)
-
     return countries_dictionary_list
 
-result = analyze_nan_df(SPEND_DATA_DF)
+def analyze_cities(input_df):
+    return analyze_spend_original_currency(input_df, 'VendorCity')
+
+def analyze_countries(input_df):
+    return analyze_spend_original_currency(input_df, 'VendorCountry')
+
+
+def analyze_nan_df(input_df):
+    nan_df = _get_nan_df(input_df)
+    return {
+        'countries': analyze_countries(nan_df)
+    }
+
+result = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF)
 
 
 utils.clean_directory(DATA_FOLDER)
