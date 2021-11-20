@@ -19,6 +19,7 @@ COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(
     co2_emission_data.co2_emission,
     COMBINED_DATA_GEO_DF,
     EMISSION_PER_EURO)
+GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data,COMBINED_DATA_GEO_DF)
 
 DATA_GROUP_BY_COUNTRY = utils.generate_co2_spending_by_criteria(
     COMBINED_DATA_GEO_DF, 'VendorCountry')
