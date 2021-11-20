@@ -1,6 +1,12 @@
 #map {
   height: 450px;
 }
+
+.footer {
+  position: absolute;
+  width: 100%;
+}
+
 .google-maps {
   position: relative;
   padding-bottom: 75%; /* 此為地圖長寬比 */
