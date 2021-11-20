@@ -172,7 +172,7 @@ function load_graphs(json, city_data, geo_data) {
 fetch("../json_data/spend_data/spend_data.json")
   .then(response => response.json())
   .then(json => {
-    fetch("../json_data/city_data/city_data.json")
+    fetch("../json_data/agg_data/city_data.json")
       .then(response => response.json())
       .then(city_data => {
           fetch("../json_data/geo_data/geo_data.json")

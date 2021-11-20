@@ -76,25 +76,17 @@ utils.output_to_file(
     'spend_data_not_empty',
     spend_data_not_empty)
 utils.output_to_file(
-    f'{DATA_FOLDER}/country_data',
+    f'{DATA_FOLDER}/agg_data',
     'country_data',
     result_group_by_country)
 utils.output_to_file(
-    f'{DATA_FOLDER}/city_data',
+    f'{DATA_FOLDER}/agg_data',
     'city_data',
     result_group_by_city)
-utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'geo_data', GEO_DATA)
-
-LIST_OF_COUNTRIES = list(COMBINED_DATA_GEO_DF['VendorCountry'].unique())
-LIST_OF_CITIES = list(COMBINED_DATA_GEO_DF['VendorCity'].unique())
 utils.output_to_file(
     f'{DATA_FOLDER}/geo_data',
-    'list_of_countries',
-    LIST_OF_COUNTRIES)
-utils.output_to_file(
-    f'{DATA_FOLDER}/geo_data',
-    'list_of_cities',
-    LIST_OF_CITIES)
+    'geo_data',
+    GEO_DATA)
 
 
 def search(df, filter_criteria):
