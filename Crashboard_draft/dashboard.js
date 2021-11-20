@@ -117,6 +117,11 @@ function load_search_form(json, list_of_cities, list_of_countries) {
 }
 
 
+function update_results_counter(length) {
+  const counter = document.getElementById('results-counter')
+  counter.textContent = length
+}
+
 function load_graphs(json) {
   const table_results = document.getElementById('manufacturer-list-of-results')
   table_results.className = `table-scroll-vertical`
@@ -124,6 +129,7 @@ function load_graphs(json) {
 
   json = filter_data(json)
 
+  update_results_counter(json.length)
   // json = json.slice(0, 4) // TEMPORARY!!!
 
 
