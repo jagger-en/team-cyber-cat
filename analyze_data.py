@@ -14,7 +14,15 @@ GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
 COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF)
 COMBINED_DATA_GEO_DF = cleaning.remove_identifier(
     COMBINED_DATA_GEO_DF, 'ProductName')
-COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(co2_emission_data.co2_emission,COMBINED_DATA_GEO_DF,EMISSION_PER_EURO)
+COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(
+    co2_emission_data.co2_emission,
+    COMBINED_DATA_GEO_DF,
+    EMISSION_PER_EURO)
+
+DATA_GROUP_BY_COUNTRY = utils.generate_co2_spending_by_criteria(
+    COMBINED_DATA_GEO_DF, 'VendorCountry')
+DATA_GROUP_BY_CITY = utils.generate_co2_spending_by_criteria(
+    COMBINED_DATA_GEO_DF, 'VendorCity')
 
 
 def _get_nan_df(df):
@@ -52,11 +60,23 @@ def analyze_nan_df(input_df):
     }
 
 
-result = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF)
-
+combined_result = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF)
+result_group_by_country = utils.convert_df_to_dict(DATA_GROUP_BY_COUNTRY)
+result_group_by_city = utils.convert_df_to_dict(DATA_GROUP_BY_CITY)
 
 utils.clean_directory(DATA_FOLDER)
-utils.output_to_file(f'{DATA_FOLDER}/spend_data', 'spend_data', result)
+utils.output_to_file(
+    f'{DATA_FOLDER}/spend_data',
+    'spend_data',
+    combined_result)
+utils.output_to_file(
+    f'{DATA_FOLDER}/coutry_data',
+    'country_data',
+    result_group_by_country)
+utils.output_to_file(
+    f'{DATA_FOLDER}/city_data',
+    'city_data',
+    result_group_by_city)
 utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'geo_data', GEO_DATA)
 
 
