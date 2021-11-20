@@ -1,3 +1,4 @@
-*.p[cod]
+*.py[cod]
 .ipynb_checkpoints
 *.xlsx
+json_data
