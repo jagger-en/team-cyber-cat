@@ -81,6 +81,11 @@ utils.output_to_file(
     result_group_by_city)
 utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'geo_data', GEO_DATA)
 
+LIST_OF_COUNTRIES = list(COMBINED_DATA_GEO_DF['VendorCountry'].unique())
+LIST_OF_CITIES = list(COMBINED_DATA_GEO_DF['VendorCity'].unique())
+utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'list_of_countries', LIST_OF_COUNTRIES)
+utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'list_of_cities', LIST_OF_CITIES)
+
 
 def search(df, filter_criteria):
     product = filter_criteria['product']
