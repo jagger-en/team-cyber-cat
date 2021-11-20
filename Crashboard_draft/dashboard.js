@@ -100,9 +100,8 @@ function load_city_form(json, city_data, geo_data, chosen_code_name) {
 
 
 function load_search_form(json, city_data, geo_data) {
-  input_id = 'manufacture-search-form'
-  const seach_form = document.getElementById(input_id)
-  const sub_form = document.createElement('div')
+  const seach_form = document.getElementById('manufacture-search-form')
+  const sub_form = document.getElementById('manufacture-sub-form')
 
   // country
   const list_of_countries = geo_data.map(d => { return {'full_name': d.full_name, 'code_name': d.code_name}})
@@ -118,7 +117,6 @@ function load_search_form(json, city_data, geo_data) {
   country_col_4.appendChild(country_select)
 
   seach_form.appendChild(country_col_4)
-  seach_form.appendChild(sub_form)
 }
 
 
