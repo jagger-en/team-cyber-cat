@@ -40,7 +40,7 @@
     ></script>
   </head>
 
-<!-- HEAD-->
+  <!-- HEAD-->
   <header>
     <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
       <div class="container">
@@ -72,12 +72,7 @@
     </nav>
   </header>
 
-<!-- -->
-
-
-
-
-  
+  <!-- -->
 
   <body>
     <div class="container mt-4">
@@ -99,9 +94,14 @@
       </div>
 
       <div class="row">
-        <div class="col-2"><br><br><br>
-          <p>Choose the country: </p>
-          <select id="country" class="form-select form-select-sm" aria-label=".form-select-sm example">
+        <div class="col-2">
+          <br /><br /><br />
+          <p>Choose the country:</p>
+          <select
+            id="country"
+            class="form-select form-select-sm"
+            aria-label=".form-select-sm example"
+          >
             <option onclick="selectedCountry(this);">ALL</option>
             <option onclick="selectedCountry(this);" selected>Austria</option>
             <option onclick="selectedCountry(this);">Germany</option>
@@ -115,30 +115,24 @@
             <option onclick="selectedCountry(this);">Ukraine</option>
             <option onclick="selectedCountry(this);">Finland</option>
             <option onclick="selectedCountry(this);">Italy</option>
-          </select> <br><br><br>
-
-
-        
-
-         
+          </select>
+          <br /><br /><br />
 
           <div class="form-check form-switch">
             <input
               class="form-check-input"
               type="checkbox"
               role="switch"
-              id="flexSwitchCheckDefault2"
+              id="switchWarning"
+              onclick="warningClick(this)"
             />
-            <label class="form-check-label" for="flexSwitchCheckDefault2"
+            <label class="form-check-label" for="switchWarning"
               >Show Warnings</label
             >
           </div>
-
-         
         </div>
         <div class="col-10">
-          <div id="map">
-          </div>
+          <div id="map"></div>
         </div>
       </div>
 
@@ -148,47 +142,43 @@
     </div>
   </body>
 
-  
+  <footer>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="container padding">
+        <div class="row">
+          <div class="col-md-4">
+            <br />
+            <h5>CCBBAA</h5>
+            <ul>
+              <li><a href="manufacturers.html">Manufacturers</a></li>
+              <li><a href="retailers.html">Retailers</a></li>
+            </ul>
+          </div>
 
-<footer>
-  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-  <div class="container padding">
-    <div class="row">
+          <div class="col-md-4">
+            <br />
+            <h5>AABBCC</h5>
+            <ul>
+              <li><a href="customers.html">Customers</a></li>
+              <li><a href="allDiagrams.html">Others</a></li>
+            </ul>
+          </div>
 
-      <div class="col-md-4">
-        <br>
-        <h5>CCBBAA</h5>
-        <ul>
-          <li><a href="manufacturers.html">Manufacturers</a></li>
-          <li><a href="retailers.html">Retailers</a></li>
-        </ul>
+          <div class="col-md-4">
+            <br />
+            <h5>Support</h5>
+            <ul>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-10 text-center mt-4">
+          <h5>&copy; www.crashboard.com</h5>
+        </div>
       </div>
-
-      <div class="col-md-4">
-        <br>
-        <h5>AABBCC</h5>
-        <ul>
-          <li><a href="customers.html">Customers</a></li>
-          <li><a href="allDiagrams.html">Others</a></li>
-        </ul>
-      </div>
-     
-      <div class="col-md-4">
-        <br>
-        <h5>Support</h5>
-        <ul>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>          
-        </ul>
-      </div></div>
-
-      <div class="col-10 text-center mt-4">
-        <h5>&copy; www.crashboard.com</h5>
-      </div>
-
-   
-  </div></main>
-
-</footer>
-<script src="./main.js"></script>
+    </main>
+  </footer>
+  <script src="./main.js"></script>
 </html>
