@@ -77,7 +77,7 @@ utils.output_to_file(
     'spend_data_not_empty',
     spend_data_not_empty)
 utils.output_to_file(
-    f'{DATA_FOLDER}/coutry_data',
+    f'{DATA_FOLDER}/country_data',
     'country_data',
     result_group_by_country)
 utils.output_to_file(
