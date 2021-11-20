@@ -33,7 +33,7 @@ def combine(geo_data, input_df):
         '''
         NOTE: The column SpendEUR needs to be used as the total_price! Other countries may have different currencies.
         '''
-        if quantity == 'NULL':
+        if quantity == 'UNSET':
             quantity = 1
         return total_price / quantity
 
@@ -65,8 +65,10 @@ def add_co2_emission(co2_data,combine_df,emission_euro_df):
     for i in range(len(input_dict_list)):
         cur_dict=input_dict_list[i]
         activity_ids=co2_data.get(cur_dict['ProductName'])
-        if not activity_ids is None:
-            cur_dict['co2_emission']=cur_dict['unit_price']*_generate_co2_eq(activity_ids)
+        cur_dict['co2_emission'] = 'UNSET'
+        if activity_ids and cur_dict['unit_price']:
+            result = _generate_co2_eq(activity_ids)
+            cur_dict['co2_emission'] = cur_dict['unit_price'] * result
     return utils.convert_dict_to_df(input_dict_list)
 
 def remove_identifier(input_df, column_name):
