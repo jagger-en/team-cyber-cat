@@ -3,11 +3,19 @@ import json
 from lib import utils
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
-df = pd.read_excel('SIEVO JUNCTION Emissions per EUR.xlsx')
+df = pd.read_excel('SIEVO JUNCTION Spend data.xlsx')
+df = df[df['ProductId'].isna()]
+df_germany = df[df['VendorCountry'] == 'DE']
+print(df_germany)
 
-result = df.loc[df['CO2eq_kg'] > 5]
+def calc_statistics():
+    pass
+    return {
+        'average': '',
+        'max': '',
+        'min': '',
+    }
 
-result = result.to_dict('records')
 
 utils.clean_directory(DATA_FOLDER)
 utils.output_to_file(f'{DATA_FOLDER}/emissions_per_eur', 'above_5', result)
