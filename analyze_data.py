@@ -7,15 +7,18 @@ DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
 SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('NULL')
 EMISSION_PER_EURO = pd.read_excel(
-    'SIEVO JUNCTION Emissions per EUR.xlsx').fillna('None')
+    'SIEVO JUNCTION Emissions per EUR.xlsx')
 
 GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
 
-COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF)
+COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF).fillna('NULL')
 COMBINED_DATA_GEO_DF = cleaning.remove_identifier(
-    COMBINED_DATA_GEO_DF, 'ProductName')
+    COMBINED_DATA_GEO_DF, 'ProductName').fillna('NULL')
 COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(co2_emission_data.co2_emission,COMBINED_DATA_GEO_DF,EMISSION_PER_EURO)
 
+
+# At the end we replace all NaN with NULL for simplicity. NaN is not parsed as String in JSON!
+COMBINED_DATA_GEO_DF.fillna('NULL')
 
 def _get_nan_df(df):
     return df[df['ProductId'].isna()]
