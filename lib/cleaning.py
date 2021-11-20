@@ -2,9 +2,11 @@ import re
 from lib import geo_data
 from lib import utils
 
+
 def clean_coords(coords):
     cleaned = re.findall(r'\d+.\d+', coords)
     return {'lat': cleaned[0], 'long': cleaned[1]}
+
 
 def clean_geo_data(input_geo_data):
     data_geo_cleaned = []
@@ -26,7 +28,6 @@ def clean_geo_data(input_geo_data):
     return data_geo_cleaned
 
 
-
 def combine(geo_data, input_df):
     def _calc_unit_price(total_price, quantity):
         '''
@@ -39,8 +40,10 @@ def combine(geo_data, input_df):
     input_dict_list = utils.convert_df_to_dict(input_df)
     combined_list = []
     for input_dict in input_dict_list:
-        geo_item = [item for item in geo_data if item['code_name'] == input_dict['VendorCountry']][0]
-        city_item = [item for item in geo_item['cities'] if item['code_name'] == input_dict['VendorCity']][0]
+        geo_item = [item for item in geo_data if item['code_name']
+                    == input_dict['VendorCountry']][0]
+        city_item = [item for item in geo_item['cities']
+                     if item['code_name'] == input_dict['VendorCity']][0]
         combined_list.append({
             **input_dict,
             'unit_price': _calc_unit_price(input_dict['SpendEUR'], input_dict['Quantity']),
@@ -52,15 +55,19 @@ def combine(geo_data, input_df):
 
     return utils.convert_dict_to_df(combined_list)
 
-def remove_identifier(input_df,column_name):
+
+def remove_identifier(input_df, column_name):
     def _merge_str(str_list):
-        res=''
+        res = ''
         for i in str_list:
-            res+=i+''
+            res += i + ' '
         return res[:-1]
-    input_dict_list=utils.convert_df_to_dict(input_df)
+    input_dict_list = utils.convert_df_to_dict(input_df)
     for i in range(len(input_dict_list)):
-        input_dict=input_dict_list[i]
-        input_dict[column_name]=_merge_str(input_dict[column_name].split(' ')[:-1])
+        input_dict = input_dict_list[i]
+        input_dict[column_name] = _merge_str(
+            input_dict[column_name].split(' ')[:-1])
     return utils.convert_dict_to_df(input_dict_list)
+
+# def add_co2_emission(co2_data,input_df):
 
