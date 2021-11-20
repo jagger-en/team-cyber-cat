@@ -92,6 +92,8 @@ function load_map(json_data) {
     cities= center_data.cities
     len=cities.length;
     
+    
+    
    
     if (WARNING_SHOWN == true) {
       var countryIcon = L.icon({
@@ -101,25 +103,31 @@ function load_map(json_data) {
          
     },{
       attribution:
-      '<div>Icons made by <a href="https://www.flaticon.com/authors/icongeek26" title="Icongeek26">Icongeek26</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+      '<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
     });
 
     var cityIcon = L.icon({
       iconUrl: 'city.png',
   
-      iconSize:     [50, 50], 
+      iconSize:     [30, 30], 
   },{
     attribution:
-    '<div>Icons made by <a href="https://www.flaticon.com/authors/aranagraphics" title="Aranagraphics">Aranagraphics</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+    '<div>Icons made by <a href="" title="turkkub">turkkub</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
   });
 
+      
+  location1 = center_data.full_name+"("+center_data.code_name+")";
+
       var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
-      .bindPopup(center_data.full_name+"("+center_data.code_name+")");
+      .bindPopup(location1);
       //.openPopup();
 
+      
+
       for(var i=0;i<len;i++){
+        location2 = cities[i].full_name+"("+cities[i].code_name+")";
         var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
-      .bindPopup(cities[i].full_name+"("+cities[i].code_name+")");
+      .bindPopup(location2);
       }
 
     }
