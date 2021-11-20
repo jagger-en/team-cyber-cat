@@ -69,6 +69,8 @@ def add_co2_emission(co2_data, combine_df, emission_euro_df):
         if activity_ids is not None:
             cur_dict['co2_emission'] = cur_dict['SpendEUR'] * \
                 _generate_co2_eq(activity_ids)
+        else:
+            cur_dict['co2_emission'] = "UNSET"
     return utils.convert_dict_to_df(input_dict_list)
 
 

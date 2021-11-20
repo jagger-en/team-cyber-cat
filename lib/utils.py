@@ -79,7 +79,12 @@ def generate_co2_spending_by_criteria(df, criteria_column):
         dict_item['name'] = u
         filtered = filter_df(df, criteria_column, u)
         dict_item['TotalSpendEUR'] = filtered['SpendEUR'].sum()
-        dict_item['TotalCo2Emission'] = filtered['co2_emission'].sum()
+
+        dict_item['TotalCo2Emission'] = "UNSET"
+        try:
+            dict_item['TotalCo2Emission'] = filtered['co2_emission'].sum()
+        except:
+            pass
         if dict_item['TotalSpendEUR'] == 0:
             dict_item['TotalSpendEUR'] = 'UNSET'
         if dict_item['TotalCo2Emission'] == 0:
