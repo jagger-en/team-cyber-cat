@@ -4,7 +4,13 @@ from lib import utils
 
 def clean_coords(coords):
     cleaned = re.findall(r'\d+.\d+', coords)
-    return {'lat': cleaned[0], 'long': cleaned[1]}
+    lat = cleaned[0]
+    long = cleaned[1]
+    if 'W' in coords:
+        long = str(-1 * float(long))
+    if 'S' in coords:
+        lat = str(-1 * float(lat))
+    return {'lat': lat, 'long': long}
 
 
 def clean_geo_data(input_geo_data):
