@@ -1,17 +1,10 @@
-function create_chart(elem_id, list_of_labels, list_of_data) {
+function create_chart(elem_id, list_of_labels, datasets) {
   const ctx = document.getElementById(elem_id)
   const myChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: list_of_labels,
-      datasets: [{
-        data: list_of_data,
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
+      datasets: datasets
     },
     options: {
       scales: {
@@ -97,15 +90,16 @@ function create_select_element(text_list, state_changer_function) {
 }
 
 
-function load_search_form(json, list_of_cities, list_of_countries) {
+function load_search_form(json, city_data, country_data) {
   input_id = 'manufacture-search-form'
   const seach_form = document.getElementById(input_id)
 
 
   // City
+  const list_of_cities = city_data.map(d => d.name)
   const city_select = create_select_element(list_of_cities, (selected_value) => {
     MAIN_FORM_STATE.city = selected_value
-    load_graphs(json)
+    load_graphs(json, city_data, country_data)
   })
 
   const city_col_4 = document.createElement('div')
@@ -122,7 +116,7 @@ function update_results_counter(length) {
   counter.textContent = length
 }
 
-function load_graphs(json) {
+function load_graphs(json, city_data, country_data) {
   const table_results = document.getElementById('manufacturer-list-of-results')
   table_results.className = `table-scroll-vertical`
   table_results.innerHTML = `` // TODO, also do the same for diagrams!
@@ -137,26 +131,26 @@ function load_graphs(json) {
 
   create_table(json, 'manufacturer-list-of-results')
 
-  const LIST_OF_LABELS = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
+  city_data = city_data.sort((a,b) => a.TotalSpendEUR - b.TotalSpendEUR)
+  city_data_graph_data_set = [
+    {
+      data: city_data.map(d => d.TotalSpendEUR),
+      lineTension: 0,
+      backgroundColor: 'transparent',
+      borderColor: '#007bff',
+      borderWidth: 4,
+      pointBackgroundColor: '#007bff'
+    },
+    {
+      data: city_data.map(d => d.TotalCo2Emission),
+      lineTension: 0,
+      backgroundColor: 'transparent',
+      borderColor: '#d04e4e',
+      borderWidth: 4,
+      pointBackgroundColor: '#d04e4e'
+    }
   ]
-  
-  const LIST_OF_DATA = [
-    15339,
-    21345,
-    18483,
-    24003,
-    23489,
-    24092,
-    12034 
-  ]
-  create_chart('myChart', LIST_OF_LABELS, LIST_OF_DATA)
+  create_chart('myChart', city_data.map(d => d.name), city_data_graph_data_set)
 }
 
 
@@ -164,14 +158,14 @@ function load_graphs(json) {
 fetch("../json_data/spend_data/spend_data_not_empty.json")
   .then(response => response.json())
   .then(json => {
-    fetch("../json_data/geo_data/list_of_countries.json")
+    fetch("../json_data/country_data/country_data.json")
       .then(response => response.json())
-      .then(list_of_countries => {
-          fetch("../json_data/geo_data/list_of_cities.json")
+      .then(country_data => {
+          fetch("../json_data/city_data/city_data.json")
           .then(response => response.json())
-          .then(list_of_cities => {
-              load_search_form(json, list_of_cities, list_of_countries)
-              load_graphs(json)
+          .then(city_data => {
+              load_search_form(json, city_data, country_data)
+              load_graphs(json, city_data, country_data)
           });
       });
   });
