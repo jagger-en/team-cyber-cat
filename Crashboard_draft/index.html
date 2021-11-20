@@ -58,13 +58,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a href="intro.php" class="nav-link">Home</a>
+              <a href="index.html" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-              <a href="map.php" class="nav-link">About</a>
+              <a href="about.html" class="nav-link">About</a>
             </li>
             <li class="nav-item">
-              <a href="contact.php" class="nav-link">Contact</a>
+              <a href="contact.html" class="nav-link">Contact</a>
             </li>
           </ul>
         </div>
@@ -101,12 +101,24 @@
       <div class="row">
         <div class="col-2"><br><br><br>
           <p>Choose the country: </p>
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>Germany</option>
-            <option value="1">Austria</option>
-            <option value="2">United Kingdom</option>
-            <option value="3">Poland</option>
+          <select id="country" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option onclick="selectedCountry(this);">ALL</option>
+            <option onclick="selectedCountry(this);" selected>Austria</option>
+            <option onclick="selectedCountry(this);">Germany</option>
+            <option onclick="selectedCountry(this);">United Kingdom</option>
+            <option onclick="selectedCountry(this);">Poland</option>
+            <option onclick="selectedCountry(this);">China</option>
+            <option onclick="selectedCountry(this);">Slovakia</option>
+            <option onclick="selectedCountry(this);">Belgium</option>
+            <option onclick="selectedCountry(this);">Greece</option>
+            <option onclick="selectedCountry(this);">Netherlands</option>
+            <option onclick="selectedCountry(this);">Ukraine</option>
+            <option onclick="selectedCountry(this);">Finland</option>
+            <option onclick="selectedCountry(this);">Italy</option>
           </select> <br><br><br>
+
+
+        
 
          
 
