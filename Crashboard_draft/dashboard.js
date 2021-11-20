@@ -85,6 +85,7 @@ function filter_data(json) {
 
   filtered = json.filter(d => d['VendorCountry'] == MAIN_FORM_STATE['location']['country'])
   filtered = filtered.filter(d => d['VendorCity'] == MAIN_FORM_STATE['location']['city'])
+  filtered = filtered.filter(d => d['ProductName'] == MAIN_FORM_STATE['product'])
   
   // Product filter (check if string exists)
   function check_if_in_string(string_small, string_large) {
