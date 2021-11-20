@@ -8,11 +8,13 @@ from lib import cleaning
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
 SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('NULL')
-
+EMISSION_PER_EURO=pd.read_excel('SIEVO JUNCTION Emissions per EUR.xlsx').fillna('None')
+EMISSION_PER_UOM=pd.read_excel('SIEVO JUNCTION Emissions per UOM.xlsx').fillna('None')
 
 GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
 
 COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF)
+COMBINED_DATA_GEO_DF=cleaning.remove_identifier(COMBINED_DATA_GEO_DF,'ProductName')
 
 
 def _get_nan_df(df):
@@ -63,3 +65,5 @@ def search(df,filter_criteria):
     df_city=utils.filter_df(df_product,'VendorCity',city)
     df_price=utils.filter_by_range(df_city,'unit_price',price_range.get('upper'),price_range.get('lower'))
     return df_price.sort_valus(by=sort)
+
+data={'GLASS JAR ':'Glass and glass products'}

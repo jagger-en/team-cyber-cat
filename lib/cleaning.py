@@ -51,3 +51,16 @@ def combine(geo_data, input_df):
         })
 
     return utils.convert_dict_to_df(combined_list)
+
+def remove_identifier(input_df,column_name):
+    def _merge_str(str_list):
+        res=''
+        for i in str_list:
+            res+=i+''
+        return res[:-1]
+    input_dict_list=utils.convert_df_to_dict(input_df)
+    for i in range(len(input_dict_list)):
+        input_dict=input_dict_list[i]
+        input_dict[column_name]=_merge_str(input_dict[column_name].split(' ')[:-1])
+    return utils.convert_dict_to_df(input_dict_list)
+
