@@ -72,8 +72,7 @@ function create_table(json, table_div_id) {
 }
 
 MAIN_FORM_STATE = {
-  'city': 'Tianjin',
-  'product': 'tomato'
+  'city': 'WIEN'
 }
 
 function filter_data(json) {
@@ -120,13 +119,12 @@ function load_search_form(json, list_of_cities, list_of_countries) {
 
 function load_graphs(json) {
   const table_results = document.getElementById('manufacturer-list-of-results')
+  table_results.className = `table-scroll-vertical`
   table_results.innerHTML = `` // TODO, also do the same for diagrams!
 
-  console.log('----------------')
-  console.log(json[0])
   json = filter_data(json)
 
-  json = json.slice(0, 4) // TEMPORARY!!!
+  // json = json.slice(0, 4) // TEMPORARY!!!
 
 
   feather.replace({ 'aria-hidden': 'true' })
