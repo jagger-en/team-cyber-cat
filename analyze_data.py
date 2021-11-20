@@ -56,7 +56,7 @@ result = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF)
 
 
 utils.clean_directory(DATA_FOLDER)
-utils.output_to_file(f'{DATA_FOLDER}/spend_data', 'analyze_nan_df', result)
+utils.output_to_file(f'{DATA_FOLDER}/spend_data', 'spend_data', result)
 utils.output_to_file(f'{DATA_FOLDER}/geo_data', 'geo_data', GEO_DATA)
 
 

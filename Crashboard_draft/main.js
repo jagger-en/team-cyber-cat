@@ -12,12 +12,12 @@ function load_map(json) {
 
     //var coordinates=JSON.parse(data);
 
-    const coordinates= JSON.parse(json);
+    const coordinates= json;
 
     var len= coordinates.length;
 
     for(var i = 0; i<len;i++){
-        var ATmarker = L.marker([coordinates[i].lat, coordinates[i].lon]).addTo(map).bindPopup(coordinates[i].full_name+"("+coordinates[i].code_name+")").openPopup();
+        var ATmarker = L.marker([coordinates[i].coords.lat, coordinates[i].coords.long]).addTo(map).bindPopup(coordinates[i].full_name+"("+coordinates[i].code_name+")").openPopup();
     }
 
     var popup = L.popup();
