@@ -161,7 +161,7 @@ function load_graphs(json) {
 
 
 // Get the file
-fetch("../json_data/spend_data/spend_data.json")
+fetch("../json_data/spend_data/spend_data_not_empty.json")
   .then(response => response.json())
   .then(json => {
     fetch("../json_data/geo_data/list_of_countries.json")

@@ -63,6 +63,7 @@ def analyze_nan_df(input_df):
 
 
 combined_result = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF)
+spend_data_not_empty = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF[COMBINED_DATA_GEO_DF['ProductName'] != ''])
 result_group_by_country = utils.convert_df_to_dict(DATA_GROUP_BY_COUNTRY)
 result_group_by_city = utils.convert_df_to_dict(DATA_GROUP_BY_CITY)
 
@@ -71,6 +72,10 @@ utils.output_to_file(
     f'{DATA_FOLDER}/spend_data',
     'spend_data',
     combined_result)
+utils.output_to_file(
+    f'{DATA_FOLDER}/spend_data',
+    'spend_data_not_empty',
+    spend_data_not_empty)
 utils.output_to_file(
     f'{DATA_FOLDER}/coutry_data',
     'country_data',
