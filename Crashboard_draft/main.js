@@ -1,4 +1,4 @@
-function load_map() {
+function load_map(json) {
     var map = L.map("map").setView([47.5162, 14.5501], 5);
     L.tileLayer(
     "https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=RqPVefXUdjgIrKWZw5Nh",
@@ -12,7 +12,7 @@ function load_map() {
 
     //var coordinates=JSON.parse(data);
 
-    const coordinates= JSON.parse('[{"full_name": "Austria","code_name": "AT","lat":47.5162,"lon":14.5501},{"full_name": "Netherlands","code_name": "NL", "lat": 52.1326, "lon": 5.2913},{"full_name": "Ukraine","code_name": "UA","lat": 48.3794,"lon":31.1656},{"full_name": "Finland", "code_name": "FI", "lat": 61.9241, "lon": 25.7482},{"full_name": "Germany","code_name": "DE","lat": 51.1657,"lon": 10.4515},{"full_name": "Italy","code_name": "IT","lat": 41.8719,"lon": 12.5674}]');
+    const coordinates= JSON.parse(json);
 
     var len= coordinates.length;
 
@@ -28,5 +28,14 @@ function load_map() {
         .openOn(map);
     }
     map.on('click', onMapClick);
-
 }
+
+
+
+// Get the file
+fetch("../json_data/geo_data/geo_data.json")
+  .then(response => response.json())
+  .then(json => {
+      console.log(json)
+      load_map(json)
+  });
