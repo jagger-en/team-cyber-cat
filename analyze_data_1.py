@@ -3,26 +3,32 @@ import json
 from lib import utils
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
-df = pd.read_excel('SIEVO JUNCTION Spend data.xlsx')
-df = df[df['ProductId'].isna()]
-df_germany = df[df['VendorCountry'] == 'DE']
-print(df_germany.columns)
+SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx')
+
+def _get_nan_df(df):
+    return df[df['ProductId'].isna()]
+
+def analyze_nan_df(input_df):
+    df = _get_nan_df(input_df)
 
 
-# TODO: Later export
-# utils.clean_directory(DATA_FOLDER)
-# utils.output_to_file(f'{DATA_FOLDER}/emissions_per_eur', 'above_5', result)
+    countries_list = df['VendorCountry'].unique()
+
+    countries_dictionary_list = []
+    for country in countries_list:
+        country_df = utils.filter_df(df, 'VendorCountry', country)
+        country_stats = utils.calc_statistics(country_df, 'SpendOriginalCurrency')
+
+        country_data = {
+            'name': country,
+            'stats': country_stats
+        }
+        countries_dictionary_list.append(country_data)
+
+    return countries_dictionary_list
+
+result = analyze_nan_df(SPEND_DATA_DF)
 
 
-
-def calc_statistics(df, numeric_column_name):
-    numeric_column = df[numeric_column_name]
-    max = numeric_column.max()
-    min = numeric_column.min()
-    mean = numeric_column.mean()
-    res = {'max': max, 'min': min, 'mean': mean}
-    return res
-
-
-stats_germany = calc_statistics(df_germany, 'SpendOriginalCurrency')
-print(stats_germany)
+utils.clean_directory(DATA_FOLDER)
+utils.output_to_file(f'{DATA_FOLDER}/spend_data', 'analyze_nan_df', result)

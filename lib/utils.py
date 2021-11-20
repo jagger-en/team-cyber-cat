@@ -34,3 +34,14 @@ def output_to_file(foldername, filename, result):
         print(f'FAILED: creating {file_path}: {e}')
 
 
+def filter_df(df, column_name, column_value):
+    df = df[df[column_name] == column_value]
+    return df
+
+def calc_statistics(df, numeric_column_name):
+    numeric_column = df[numeric_column_name]
+    max = numeric_column.max()
+    min = numeric_column.min()
+    mean = numeric_column.mean()
+    res = {'max': max, 'min': min, 'mean': mean}
+    return res
