@@ -55,12 +55,25 @@ def combine(geo_data, input_df):
 
     return utils.convert_dict_to_df(combined_list)
 
+def add_co2_emission(co2_data,combine_df,emission_euro_df):
+    def _generate_co2_eq(index_list):
+        res=0
+        for i in index_list:
+            res+=emission_euro_df.iloc[i-1]['CO2eq_kg']
+        return res/len(index_list)
+    input_dict_list=utils.convert_df_to_dict(combine_df)
+    for i in range(len(input_dict_list)):
+        cur_dict=input_dict_list[i]
+        activity_ids=co2_data.get(cur_dict['ProductName'])
+        if not activity_ids is None:
+            cur_dict['co2_emission']=cur_dict['unit_price']*_generate_co2_eq(activity_ids)
+    return utils.convert_dict_to_df(input_dict_list)
 
 def remove_identifier(input_df, column_name):
     def _merge_str(str_list):
         res = ''
         for i in str_list:
-            res += i + ' '
+            res += i + ' ' if i !='/' and i!='//' else ''
         return res[:-1]
     input_dict_list = utils.convert_df_to_dict(input_df)
     for i in range(len(input_dict_list)):
@@ -68,6 +81,4 @@ def remove_identifier(input_df, column_name):
         input_dict[column_name] = _merge_str(
             input_dict[column_name].split(' ')[:-1])
     return utils.convert_dict_to_df(input_dict_list)
-
-# def add_co2_emission(co2_data,input_df):
 

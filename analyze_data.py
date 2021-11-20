@@ -2,19 +2,19 @@ import pandas as pd
 from lib import utils
 from lib import geo_data
 from lib import cleaning
+from lib import co2_emission_data
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
 SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('NULL')
 EMISSION_PER_EURO = pd.read_excel(
     'SIEVO JUNCTION Emissions per EUR.xlsx').fillna('None')
-EMISSION_PER_UOM = pd.read_excel(
-    'SIEVO JUNCTION Emissions per UOM.xlsx').fillna('None')
 
 GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
 
 COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF)
 COMBINED_DATA_GEO_DF = cleaning.remove_identifier(
     COMBINED_DATA_GEO_DF, 'ProductName')
+COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(co2_emission_data.co2_emission,COMBINED_DATA_GEO_DF,EMISSION_PER_EURO)
 
 
 def _get_nan_df(df):
