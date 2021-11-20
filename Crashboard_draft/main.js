@@ -1,5 +1,5 @@
 function load_map(json) {
-    var map = L.map("map").setView([47.5162, 14.5501], 5);
+    var map = L.map("map").setView([48.3794, 31.1656], 3);
     L.tileLayer(
     "https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=RqPVefXUdjgIrKWZw5Nh",
     {
@@ -8,9 +8,7 @@ function load_map(json) {
     }
     ).addTo(map);
 
-    //require('coordinates.json');
-
-    //var coordinates=JSON.parse(data);
+  
 
     const coordinates= json;
 

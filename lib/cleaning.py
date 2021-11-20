@@ -33,7 +33,7 @@ def combine(geo_data, input_df):
         '''
         NOTE: The column SpendEUR needs to be used as the total_price! Other countries may have different currencies.
         '''
-        if quantity == 'NULL':
+        if quantity == 'UNSET':
             quantity = 1
         return total_price / quantity
 

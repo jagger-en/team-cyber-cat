@@ -5,13 +5,13 @@ from lib import cleaning
 from lib import co2_emission_data
 DATA_FOLDER = 'json_data'  # DO NOT CHANGE!
 
-SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx').fillna('NULL')
+SPEND_DATA_DF = pd.read_excel('SIEVO JUNCTION Spend data.xlsx')
 EMISSION_PER_EURO = pd.read_excel(
-    'SIEVO JUNCTION Emissions per EUR.xlsx').fillna('None')
+    'SIEVO JUNCTION Emissions per EUR.xlsx')
 
 GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data)
 
-COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF)
+COMBINED_DATA_GEO_DF = cleaning.combine(GEO_DATA, SPEND_DATA_DF).fillna('UNSET')
 COMBINED_DATA_GEO_DF = cleaning.remove_identifier(
     COMBINED_DATA_GEO_DF, 'ProductName')
 COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(
@@ -23,6 +23,8 @@ DATA_GROUP_BY_COUNTRY = utils.generate_co2_spending_by_criteria(
     COMBINED_DATA_GEO_DF, 'VendorCountry')
 DATA_GROUP_BY_CITY = utils.generate_co2_spending_by_criteria(
     COMBINED_DATA_GEO_DF, 'VendorCity')
+
+COMBINED_DATA_GEO_DF.fillna('UNSET')
 
 
 def _get_nan_df(df):
