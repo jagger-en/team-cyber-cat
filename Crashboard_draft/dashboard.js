@@ -14,9 +14,8 @@ function create_chart(elem_id, list_of_labels, datasets) {
 
 
 function create_table(json, table_div_id) {
-  const col_list = ['DocumentId', 'ProductName', 'OriginalCurrency',
-    'SpendEUR', 'Quantity', 'UOM', 'VendorName', 'VendorCity',
-    'VendorCountry', 'unit_price']
+  const col_list = ['ProductName', 'OriginalCurrency',
+    'SpendEUR', 'Quantity', 'UOM', 'VendorName',  'unit_price']
   const row_list = json
 
   
