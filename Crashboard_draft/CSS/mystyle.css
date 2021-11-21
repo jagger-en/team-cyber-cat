@@ -1,5 +1,18 @@
-.footer {
+footer {
   margin-top: 2%;
+  padding-bottom: 5px;
+
+  background-color: #fdc76f;
+}
+
+body {
+  background: #e4e3d6;
+}
+nav {
+  background: #fdc76f;
+}
+
+.bg-light {
 }
 
 .L2 {
