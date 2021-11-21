@@ -152,7 +152,7 @@ function load_map(json_data) {
       // return '100'
     }
     pop_html = `
-      <b>Country:</b>
+      <b>Location:</b>
       <br>
       ${location}
       <br>
