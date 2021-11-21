@@ -127,19 +127,27 @@ function create_table_div(batch_item) {
       const tr = document.createElement('tr')
       col_list.forEach(col => {
         const td = document.createElement('td')
-        td.innerHTML = d[col.code]
+        text_to_fillin = d[col.code]
+        
+        if (col.code == 'agg') {
+            if (text_to_fillin.length == 2) {
+                text_to_fillin = decide_item(text_to_fillin).full_name
+            }
+        }
+        td.innerHTML = text_to_fillin
+
         if (col.code == 'total_SpendEUR') {            
             td.innerHTML = `
                 <div style="display: block;
-                    width: ${decide_box_width(d[col.code])}px;
-                    height: 25px; background: #9aeae2">${d[col.code]}</div>
+                    width: ${decide_box_width(text_to_fillin)}px;
+                    height: 25px; background: #9aeae2">${text_to_fillin}</div>
             `
         }
         if (col.code == 'total_co2_emission') {
             td.innerHTML = `
                 <div style="display: block;
-                    width: ${decide_box_width(d[col.code])}px;
-                    height: 25px; background: #f79292">${d[col.code]}</div>
+                    width: ${decide_box_width(text_to_fillin)}px;
+                    height: 25px; background: #f79292">${text_to_fillin}</div>
             `
         }
         td.width = '500px' // Temporary, better solution needed?
@@ -222,40 +230,45 @@ function create_select_element(text_list, is_country, state_changer_function) {
     return select
 }
 
+
+function decide_item(item) {
+    if (item == 'AT') {
+        item = {'full_name': 'Austria', 'code_name': 'AT'}
+    }
+    else if (item == 'UA') {
+        item = {'full_name': 'Ukraine', 'code_name': 'UA'}
+    }
+    else if (item == 'DE') {
+        item = {'full_name': 'Germany', 'code_name': 'DE'}
+    }
+    else if (item == 'IT') {
+        item = {'full_name': 'Italy', 'code_name': 'IT'}
+    }
+    else if (item == 'PL') {
+        item = {'full_name': 'Poland', 'code_name': 'PL'}
+    }
+    else if (item == 'BE') {
+        item = {'full_name': 'Belgium', 'code_name': 'BE'}
+    }
+    else if (item == 'SK') {
+        item = {'full_name': 'Slovakia', 'code_name': 'SK'}
+    }
+    else if (item == 'GB') {
+        item = {'full_name': 'United Kingdom', 'code_name': 'GB'}
+    }
+    else if (item == 'CN') {
+        item = {'full_name': 'China', 'code_name': 'CN'}
+    }
+    else {
+        item = {'full_name': 'Austria', 'code_name': 'AT'}
+    }
+    return item
+}
+
 // [ "AT", "UA", "DE", "IT", "PL", "GR", "BE", "SK", "GB", "CN" ]
 function convert_to_fullname(list_to_give) {
     return list_to_give.map(item => {
-        if (item == 'AT') {
-            item = {'full_name': 'Austria', 'code_name': 'AT'}
-        }
-        else if (item == 'UA') {
-            item = {'full_name': 'Ukraine', 'code_name': 'UA'}
-        }
-        else if (item == 'DE') {
-            item = {'full_name': 'Germany', 'code_name': 'DE'}
-        }
-        else if (item == 'IT') {
-            item = {'full_name': 'Italy', 'code_name': 'IT'}
-        }
-        else if (item == 'PL') {
-            item = {'full_name': 'Poland', 'code_name': 'PL'}
-        }
-        else if (item == 'BE') {
-            item = {'full_name': 'Belgium', 'code_name': 'BE'}
-        }
-        else if (item == 'SK') {
-            item = {'full_name': 'Slovakia', 'code_name': 'SK'}
-        }
-        else if (item == 'GB') {
-            item = {'full_name': 'United Kingdom', 'code_name': 'GB'}
-        }
-        else if (item == 'CN') {
-            item = {'full_name': 'China', 'code_name': 'CN'}
-        }
-        else {
-            item = {'full_name': 'Austria', 'code_name': 'AT'}
-        }
-        return item
+        return decide_item(item)
     })
 }
 
