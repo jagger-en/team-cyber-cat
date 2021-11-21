@@ -72,7 +72,6 @@ function decide_box_width(value) {
     if (isNaN(value)) {
         value = 0
     }
-    console.log(value)
     width = value * SCALE_CALCULATED
     if (width >= THRESHOLD) {
         width = THRESHOLD
@@ -201,13 +200,19 @@ function display_stuff(comparison_items) {
 }
 
 
-function create_select_element(text_list, state_changer_function) {
+function create_select_element(text_list, is_country, state_changer_function) {
     const select = document.createElement('select')
     select.classList = `form-select form-select-sm`
     text_list.forEach(d => {
       const option = document.createElement('option')
-      option.textContent = d
-      option.value = d
+      if (is_country) {
+        option.textContent = (d.full_name !== null) ? d.full_name : d.code_name
+        option.value = d.code_name
+      }
+      else {
+        option.textContent = d
+        option.value = d
+      }
       select.appendChild(option)
     })
     select.addEventListener('change', (e) => {
@@ -217,12 +222,57 @@ function create_select_element(text_list, state_changer_function) {
     return select
 }
 
+// [ "AT", "UA", "DE", "IT", "PL", "GR", "BE", "SK", "GB", "CN" ]
+function convert_to_fullname(list_to_give) {
+    return list_to_give.map(item => {
+        if (item == 'AT') {
+            item = {'full_name': 'Austria', 'code_name': 'AT'}
+        }
+        else if (item == 'UA') {
+            item = {'full_name': 'Ukraine', 'code_name': 'UA'}
+        }
+        else if (item == 'DE') {
+            item = {'full_name': 'Germany', 'code_name': 'DE'}
+        }
+        else if (item == 'IT') {
+            item = {'full_name': 'Italy', 'code_name': 'IT'}
+        }
+        else if (item == 'PL') {
+            item = {'full_name': 'Poland', 'code_name': 'PL'}
+        }
+        else if (item == 'BE') {
+            item = {'full_name': 'Belgium', 'code_name': 'BE'}
+        }
+        else if (item == 'SK') {
+            item = {'full_name': 'Slovakia', 'code_name': 'SK'}
+        }
+        else if (item == 'GB') {
+            item = {'full_name': 'United Kingdom', 'code_name': 'GB'}
+        }
+        else if (item == 'CN') {
+            item = {'full_name': 'China', 'code_name': 'CN'}
+        }
+        else {
+            item = {'full_name': 'Austria', 'code_name': 'AT'}
+        }
+        return item
+    })
+}
+
 function load_forms(spend_data, list_of_lists) {
     const form_container_ids = ['form_container_left', 'form_container_right']
     form_container_ids.forEach(form_container_id => {
         const form_container = document.getElementById(form_container_id)
         list_of_lists.forEach(list_of_list => {
-            const select = create_select_element(list_of_list.uniq_vals, (e) => {
+            list_to_give = list_of_list.uniq_vals
+            if (list_of_list.field == 'VendorCountry') {
+                list_to_give = convert_to_fullname(list_to_give)
+                console.log(list_to_give)
+                is_country = true
+            } else {
+                is_country = false
+            }
+            const select = create_select_element(list_to_give, is_country, (e) => {
                 if (form_container_id == 'form_container_left') {
                     BIG_FILTER_LEFT[list_of_list.field] = e
                     render(spend_data)
