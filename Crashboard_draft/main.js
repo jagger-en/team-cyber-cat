@@ -83,6 +83,8 @@ function render_map(){
     return map
 }
 
+
+
 function load_map(json_data) {
     const map = render_map()
 
@@ -91,10 +93,8 @@ function load_map(json_data) {
     long1 = center_data.coords.long
     cities= center_data.cities
     len=cities.length;
+
     
-    
-    
-   
     if (WARNING_SHOWN == true) {
       var countryIcon = L.icon({
         iconUrl: 'location.png',
@@ -116,18 +116,26 @@ function load_map(json_data) {
   });
 
       
-  location1 = center_data.full_name+"("+center_data.code_name+")";
+  location1 = center_data.full_name+"&nbsp;&nbsp;("+center_data.code_name+")";
+  spend1= center_data.total_spend_eur;
+  CO2_1=center_data.total_co2_emission;
+
+
+  
+
 
       var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
-      .bindPopup(location1);
+      .bindPopup("<b>Country:</b><br>"+location1+"<br>"+"<b>Spend:</b><br>"+spend1+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_1+"&nbsp;&nbsp;(KG)<br>");
       //.openPopup();
 
       
 
       for(var i=0;i<len;i++){
-        location2 = cities[i].full_name+"("+cities[i].code_name+")";
+        location2 = cities[i].full_name+"&nbsp;&nbsp;("+cities[i].code_name+")";
+        spend2= cities[i].total_spend_eur;
+  CO2_2=cities[i].total_co2_emission;
         var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
-      .bindPopup(location2);
+      .bindPopup("<b>City:</b><br>"+location2+"<br>"+"<b>Spend:</b><br>"+spend2+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_2+"&nbsp;&nbsp;(KG)<br>");
       }
 
     }
