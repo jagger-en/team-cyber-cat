@@ -17,7 +17,7 @@ function load_warning_click(geo_data) {
     warning_click_div.classList = `form-check form-switch mt-3`
 
     const label_elem = document.createElement('label')
-    label_elem.textContent = 'Show Markers'
+    label_elem.textContent = 'Critical Areas'
     
     const input_elem = document.createElement('input')
     input_elem.className='form-check-input'
@@ -59,7 +59,6 @@ function load_form_for_map(geo_data) {
     choose_the_country.appendChild(select)
 }
 
-
 function render_map(){ 
     if(this.map) {
         this.map.remove();
@@ -83,6 +82,8 @@ function render_map(){
     return map
 }
 
+
+
 function load_map(json_data) {
     const map = render_map()
 
@@ -91,40 +92,66 @@ function load_map(json_data) {
     long1 = center_data.coords.long
     cities= center_data.cities
     len=cities.length;
-    
-   
-    if (WARNING_SHOWN == true) {
-      var countryIcon = L.icon({
-        iconUrl: 'location.png',
-        
-        iconSize:     [50, 50],
-         
-    },{
-      attribution:
-      '<div>Icons made by <a href="https://www.flaticon.com/authors/icongeek26" title="Icongeek26">Icongeek26</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
-    });
 
-    var cityIcon = L.icon({
-      iconUrl: 'city.png',
-  
-      iconSize:     [50, 50], 
+    var countryIcon = L.icon({
+      iconUrl: 'location.png',
+      
+      iconSize:     [50, 50],
+       
   },{
     attribution:
-    '<div>Icons made by <a href="https://www.flaticon.com/authors/aranagraphics" title="Aranagraphics">Aranagraphics</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+    '<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
   });
 
-      var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
-      .bindPopup(center_data.full_name+"("+center_data.code_name+")");
-      //.openPopup();
+  var cityIcon = L.icon({
+    iconUrl: 'city.png',
+
+    iconSize:     [30, 30], 
+},{
+  attribution:
+  '<div>Icons made by <a href="" title="turkkub">turkkub</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+});
+
+    
+location1 = center_data.full_name+"&nbsp;&nbsp;("+center_data.code_name+")";
+spend1= center_data.total_spend_eur;
+CO2_1=center_data.total_co2_emission;
+
+var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
+.bindPopup("<b>Country:</b><br>"+location1+"<br>"+"<b>Spend:</b><br>"+spend1+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_1+"&nbsp;&nbsp;(KG)<br>");
+//.openPopup();
+
+for(var i=0;i<len;i++){
+  location2 = cities[i].full_name+"&nbsp;&nbsp;("+cities[i].code_name+")";
+  spend2= cities[i].total_spend_eur;
+CO2_2=cities[i].total_co2_emission;
+  var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
+.bindPopup("<b>City:</b><br>"+location2+"<br>"+"<b>Spend:</b><br>"+spend2+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_2+"&nbsp;&nbsp;(KG)<br>");}
+ 
+
+
+    
+    if (WARNING_SHOWN == true) {
+      
+
 
       for(var i=0;i<len;i++){
-        var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
-      .bindPopup(cities[i].full_name+"("+cities[i].code_name+")");
+        
+  CO2_2=cities[i].total_co2_emission;
+
+      if(CO2_2 != "UNSET"){
+        var circle = L.circle([cities[i].coords.lat, cities[i].coords.long], {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: CO2_2/100
+      }).addTo(map);
+      }
       }
 
     }
 
-    map.setView([lat1, long1],8);
+    map.setView([lat1, long1],7);
     
 }
 

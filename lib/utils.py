@@ -70,6 +70,18 @@ def convert_df_to_dict(df):
 def convert_dict_to_df(dict_list):
     return pd.DataFrame.from_dict(dict_list)
 
+def generate_spending_co2_by_column(df,column_name,criteria):
+    filtered=filter_df(df,column_name,criteria)
+    total_spending=filtered['SpendEUR'].sum()
+    total_co2_emission="UNSET"
+    try:
+        total_co2_emission = filtered['co2_emission'].sum()
+    except BaseException:
+        pass
+    if isinstance(total_co2_emission, str):
+        total_co2_emission = "UNSET"
+
+    return total_spending,total_co2_emission
 
 def generate_co2_spending_by_criteria(df, criteria_column):
     unique = df[criteria_column].unique()
@@ -77,16 +89,7 @@ def generate_co2_spending_by_criteria(df, criteria_column):
     for u in unique:
         dict_item = {}
         dict_item['name'] = u
-        filtered = filter_df(df, criteria_column, u)
-        dict_item['TotalSpendEUR'] = filtered['SpendEUR'].sum()
-
-        dict_item['TotalCo2Emission'] = "UNSET"
-        try:
-            dict_item['TotalCo2Emission'] = filtered['co2_emission'].sum()
-        except BaseException:
-            pass
-        if isinstance(dict_item['TotalCo2Emission'], str):
-            dict_item['TotalCo2Emission'] = "UNSET"
+        dict_item['TotalSpendEUR'],dict_item['TotalCo2Emission'] = generate_spending_co2_by_column(df,criteria_column,u)
         res.append(dict_item)
 
     return convert_dict_to_df(res)

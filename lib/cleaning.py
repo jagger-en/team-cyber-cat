@@ -13,21 +13,40 @@ def clean_coords(coords):
     return {'lat': lat, 'long': long}
 
 
-def clean_geo_data(input_geo_data):
+def clean_geo_data(input_geo_data, combined_df=None):
     data_geo_cleaned = []
     for country in input_geo_data:
         cities_cleaned = []
         for city in country['cities']:
+            total_spending, total_co2_emission=None,None
+            if combined_df is not None:
+                internal=utils.generate_spending_co2_by_column(combined_df,"VendorCity",city.get('code_name'))
+                total_spending=round(internal[0])
+                total_co2_emission = internal[1]
+                if total_co2_emission != "UNSET":
+                    total_co2_emission = round(total_co2_emission)
+
             cities_cleaned.append({
                 'full_name': city.get('full_name'),
                 'code_name': city.get('code_name'),
                 'coords': clean_coords(city.get('coords')),
+                'total_spend_eur': total_spending,
+                'total_co2_emission': total_co2_emission
             })
-
+        total_spending, total_co2_emission = None, None
+        if combined_df is not None:
+            internal = utils.generate_spending_co2_by_column(
+            combined_df, 'VendorCountry', country.get('code_name'))
+            total_spending = round(internal[0])
+            total_co2_emission = internal[1]
+            if total_co2_emission !="UNSET":
+                total_co2_emission=round(total_co2_emission)
         data_geo_cleaned.append({
             'full_name': country.get('full_name'),
             'code_name': country.get('code_name'),
             'coords': clean_coords(country.get('coords')),
+            'total_spend_eur': total_spending,
+            'total_co2_emission': total_co2_emission,
             'cities': cities_cleaned
         })
     return data_geo_cleaned
