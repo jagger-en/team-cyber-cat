@@ -168,7 +168,7 @@ function load_graphs(json, city_data, geo_data) {
 
 
 // Get the file
-fetch("../json_data/spend_data/spend_data.json")
+fetch("../json_data/spend_data/spend_data_not_empty.json")
   .then(response => response.json())
   .then(json => {
     fetch("../json_data/agg_data/city_data.json")
