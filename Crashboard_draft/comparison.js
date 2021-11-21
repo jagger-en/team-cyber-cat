@@ -25,8 +25,8 @@ BIG_FILTER_RIGHT = {
     'CategoryL2': 'UNSET'
 }
 AGGREG_POSSIBLE_FIELDS = ['VendorCity', 'VendorCountry', 'CategoryL2']
-
-
+let SCALE_CALCULATED = null
+let THRESHOLD = 100
 function filter_input(input_json, chosen_big_filter) {
 
     FIELDS_LIST.forEach(field => {
@@ -52,6 +52,34 @@ function calc_aggreg(c_item_data, agg) {
     return mapped
 }
 
+
+
+function calculate_maximum(spend_data) {
+    max_eur = spend_data.filter(d => d.TotalSpendEUR != 'UNSET')
+      .sort((a, b) => b.TotalSpendEUR - a.TotalSpendEUR)[0].TotalSpendEUR
+    max_co2 = spend_data.filter(d => d.TotalCo2Emission != 'UNSET')
+      .sort((a, b) => b.TotalCo2Emission - a.TotalCo2Emission)[0].TotalCo2Emission
+    largest = [max_co2, max_eur].sort((a,b) => b - a)[0]
+    scale = THRESHOLD / largest
+    return scale
+  }
+
+
+function decide_box_width(value) {
+    if (value == "UNSET") {
+        value = 0
+    }
+    if (isNaN(value)) {
+        value = 0
+    }
+    console.log(value)
+    width = value * SCALE_CALCULATED
+    if (width >= THRESHOLD) {
+        width = THRESHOLD
+    }
+    return width
+    // return 'THRESHOLD'
+}
 
 
 
@@ -100,7 +128,21 @@ function create_table_div(batch_item) {
       const tr = document.createElement('tr')
       col_list.forEach(col => {
         const td = document.createElement('td')
-        td.textContent = d[col.code]
+        td.innerHTML = d[col.code]
+        if (col.code == 'total_SpendEUR') {            
+            td.innerHTML = `
+                <div style="display: block;
+                    width: ${decide_box_width(d[col.code])}px;
+                    height: 25px; background: #9aeae2">${d[col.code]}</div>
+            `
+        }
+        if (col.code == 'total_co2_emission') {
+            td.innerHTML = `
+                <div style="display: block;
+                    width: ${decide_box_width(d[col.code])}px;
+                    height: 25px; background: #f79292">${d[col.code]}</div>
+            `
+        }
         td.width = '500px' // Temporary, better solution needed?
         tr.appendChild(td)
       })
@@ -217,8 +259,14 @@ fetch("../json_data/spend_data/spend_data_not_empty.json")
                 'uniq_vals': uniq_vals
             }
         })
-        load_forms(spend_data, list_of_lists)
-        render(spend_data)
+        fetch("../json_data/agg_data/city_data.json")
+            .then(response => response.json())
+            .then(city_data => {
+                SCALE_CALCULATED = calculate_maximum(city_data)
+                load_forms(spend_data, list_of_lists)
+                render(spend_data)
+            });
+
     });
 
 
