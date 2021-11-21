@@ -18,7 +18,7 @@ def clean_geo_data(input_geo_data, combined_df=None):
     for country in input_geo_data:
         cities_cleaned = []
         for city in country['cities']:
-            total_spending, total_co2_emission=None,None
+            total_spending, total_co2_emission = None, None
             if combined_df is not None:
                 internal=utils.generate_spending_co2_by_column(combined_df,"VendorCity",city.get('code_name'))
                 total_spending=round(internal[0])

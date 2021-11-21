@@ -19,11 +19,11 @@ COMBINED_DATA_GEO_DF = cleaning.add_co2_emission(
     co2_emission_data.co2_emission,
     COMBINED_DATA_GEO_DF,
     EMISSION_PER_EURO)
-GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data,COMBINED_DATA_GEO_DF)
+GEO_DATA = cleaning.clean_geo_data(geo_data.all_geo_data, COMBINED_DATA_GEO_DF)
 
-DATA_GROUP_BY_COUNTRY = utils.generate_co2_spending_by_criteria(
+DATA_GROUP_BY_COUNTRY = utils.generate_df_with_co2_spending(
     COMBINED_DATA_GEO_DF, 'VendorCountry')
-DATA_GROUP_BY_CITY = utils.generate_co2_spending_by_criteria(
+DATA_GROUP_BY_CITY = utils.generate_df_with_co2_spending(
     COMBINED_DATA_GEO_DF, 'VendorCity')
 
 
@@ -63,7 +63,8 @@ def analyze_nan_df(input_df):
 
 
 combined_result = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF)
-spend_data_not_empty = utils.convert_df_to_dict(COMBINED_DATA_GEO_DF[COMBINED_DATA_GEO_DF['ProductName'] != ''])
+spend_data_not_empty = utils.convert_df_to_dict(
+    COMBINED_DATA_GEO_DF[COMBINED_DATA_GEO_DF['ProductName'] != ''])
 result_group_by_country = utils.convert_df_to_dict(DATA_GROUP_BY_COUNTRY)
 result_group_by_city = utils.convert_df_to_dict(DATA_GROUP_BY_CITY)
 
