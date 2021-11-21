@@ -122,6 +122,27 @@ function load_map(json_data) {
 
 
   function create_pop_html(location, spend, co2) {
+    function calculate_maximum_for_location(location) {
+      max_eur = cities.filter(d => d.total_spend_eur != 'UNSET')
+        .sort((a, b) => b.total_spend_eur - a.total_spend_eur)[0].total_spend_eur
+      max_co2 = cities.filter(d => d.total_co2_emission != 'UNSET')
+        .sort((a, b) => b.total_co2_emission - a.total_co2_emission)[0].total_co2_emission
+      largest = [max_co2, max_eur].sort((a,b) => b - a)[0]
+      scale = 100 / largest
+      return scale
+    }
+
+    function decide_box_width(value) {
+      if (value == "UNSET") {
+        value = 0
+      }
+      width = value * calculate_maximum_for_location(location)
+      if (width >= 100) {
+        width = 100
+      }
+      return width
+      // return '100'
+    }
     pop_html = `
       <b>Country:</b>
       <br>
@@ -129,10 +150,9 @@ function load_map(json_data) {
       <br>
       <b>Spend:</b>
       <br>
-      ${spend}
-      &nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>
-      ${co2}
-      &nbsp;&nbsp;(KG)<br>
+      <div style="display: block; width: ${decide_box_width(spend)}px; height: 10px; background: #9aeae2">${spend}&nbsp;&nbsp;(EUR)</div>
+      <b>CO2 Emission:</b><br>
+      <div style="display: block; width: ${decide_box_width(co2)}px; height: 10px; background: #f79292">${co2}&nbsp;&nbsp;(KG)</div>
     `
     return pop_html
   }
