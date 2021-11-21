@@ -121,11 +121,26 @@ function load_map(json_data) {
   CO2_1=center_data.total_co2_emission;
 
 
-  
+  function create_pop_html(location, spend, co2) {
+    pop_html = `
+      <b>Country:</b>
+      <br>
+      ${location}
+      <br>
+      <b>Spend:</b>
+      <br>
+      ${spend}
+      &nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>
+      ${co2}
+      &nbsp;&nbsp;(KG)<br>
+    `
+    return pop_html
+  }
 
 
       var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
-      .bindPopup("<b>Country:</b><br>"+location1+"<br>"+"<b>Spend:</b><br>"+spend1+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_1+"&nbsp;&nbsp;(KG)<br>");
+
+      .bindPopup(create_pop_html(location1, spend1, CO2_1));
       //.openPopup();
 
       
@@ -135,7 +150,7 @@ function load_map(json_data) {
         spend2= cities[i].total_spend_eur;
   CO2_2=cities[i].total_co2_emission;
         var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
-      .bindPopup("<b>City:</b><br>"+location2+"<br>"+"<b>Spend:</b><br>"+spend2+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_2+"&nbsp;&nbsp;(KG)<br>");
+      .bindPopup(create_pop_html(location2, spend2, CO2_2));
       }
 
     }
