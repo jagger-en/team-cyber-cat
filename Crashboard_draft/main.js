@@ -17,7 +17,7 @@ function load_warning_click(geo_data) {
     warning_click_div.classList = `form-check form-switch mt-3`
 
     const label_elem = document.createElement('label')
-    label_elem.textContent = 'Show Markers'
+    label_elem.textContent = 'Critical Areas'
     
     const input_elem = document.createElement('input')
     input_elem.className='form-check-input'
@@ -59,7 +59,6 @@ function load_form_for_map(geo_data) {
     choose_the_country.appendChild(select)
 }
 
-
 function render_map(){ 
     if(this.map) {
         this.map.remove();
@@ -94,88 +93,65 @@ function load_map(json_data) {
     cities= center_data.cities
     len=cities.length;
 
-    
-    if (WARNING_SHOWN == true) {
-      var countryIcon = L.icon({
-        iconUrl: 'location.png',
-        
-        iconSize:     [50, 50],
-         
-    },{
-      attribution:
-      '<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
-    });
-
-    var cityIcon = L.icon({
-      iconUrl: 'city.png',
-  
-      iconSize:     [30, 30], 
+    var countryIcon = L.icon({
+      iconUrl: 'location.png',
+      
+      iconSize:     [50, 50],
+       
   },{
     attribution:
-    '<div>Icons made by <a href="" title="turkkub">turkkub</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+    '<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
   });
 
+  var cityIcon = L.icon({
+    iconUrl: 'city.png',
+
+    iconSize:     [30, 30], 
+},{
+  attribution:
+  '<div>Icons made by <a href="" title="turkkub">turkkub</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>',
+});
+
+    
+location1 = center_data.full_name+"&nbsp;&nbsp;("+center_data.code_name+")";
+spend1= center_data.total_spend_eur;
+CO2_1=center_data.total_co2_emission;
+
+var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
+.bindPopup("<b>Country:</b><br>"+location1+"<br>"+"<b>Spend:</b><br>"+spend1+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_1+"&nbsp;&nbsp;(KG)<br>");
+//.openPopup();
+
+for(var i=0;i<len;i++){
+  location2 = cities[i].full_name+"&nbsp;&nbsp;("+cities[i].code_name+")";
+  spend2= cities[i].total_spend_eur;
+CO2_2=cities[i].total_co2_emission;
+  var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
+.bindPopup("<b>City:</b><br>"+location2+"<br>"+"<b>Spend:</b><br>"+spend2+"&nbsp;&nbsp;(EUR)<br><b>CO2 Emission:</b><br>"+CO2_2+"&nbsp;&nbsp;(KG)<br>");}
+ 
+
+
+    
+    if (WARNING_SHOWN == true) {
       
-  location1 = center_data.full_name+"&nbsp;&nbsp;("+center_data.code_name+")";
-  spend1= center_data.total_spend_eur;
-  CO2_1=center_data.total_co2_emission;
 
-
-  function create_pop_html(location, spend, co2) {
-    function calculate_maximum_for_location(location) {
-      max_eur = cities.filter(d => d.total_spend_eur != 'UNSET')
-        .sort((a, b) => b.total_spend_eur - a.total_spend_eur)[0].total_spend_eur
-      max_co2 = cities.filter(d => d.total_co2_emission != 'UNSET')
-        .sort((a, b) => b.total_co2_emission - a.total_co2_emission)[0].total_co2_emission
-      largest = [max_co2, max_eur].sort((a,b) => b - a)[0]
-      scale = 100 / largest
-      return scale
-    }
-
-    function decide_box_width(value) {
-      if (value == "UNSET") {
-        value = 0
-      }
-      width = value * calculate_maximum_for_location(location)
-      if (width >= 100) {
-        width = 100
-      }
-      return width
-      // return '100'
-    }
-    pop_html = `
-      <b>Country:</b>
-      <br>
-      ${location}
-      <br>
-      <b>Spend:</b>
-      <br>
-      <div style="display: block; width: ${decide_box_width(spend)}px; height: 10px; background: #9aeae2">${spend}&nbsp;&nbsp;(EUR)</div>
-      <b>CO2 Emission:</b><br>
-      <div style="display: block; width: ${decide_box_width(co2)}px; height: 10px; background: #f79292">${co2}&nbsp;&nbsp;(KG)</div>
-    `
-    return pop_html
-  }
-
-
-      var marker = L.marker([lat1, long1],{icon: countryIcon}).addTo(map)
-
-      .bindPopup(create_pop_html(location1, spend1, CO2_1));
-      //.openPopup();
-
-      
 
       for(var i=0;i<len;i++){
-        location2 = cities[i].full_name+"&nbsp;&nbsp;("+cities[i].code_name+")";
-        spend2= cities[i].total_spend_eur;
+        
   CO2_2=cities[i].total_co2_emission;
-        var citymarker = L.marker([cities[i].coords.lat, cities[i].coords.long],{icon: cityIcon}).addTo(map)
-      .bindPopup(create_pop_html(location2, spend2, CO2_2));
+
+      if(CO2_2 != "UNSET"){
+        var circle = L.circle([cities[i].coords.lat, cities[i].coords.long], {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: CO2_2/100
+      }).addTo(map);
+      }
       }
 
     }
 
-    map.setView([lat1, long1],8);
+    map.setView([lat1, long1],7);
     
 }
 
